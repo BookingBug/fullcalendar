@@ -4086,6 +4086,9 @@ Grid.mixin({
 				end: null, // end should be cleared
 				allDay: !dragEnd.hasTime()
 			};
+			if (startCell.resourceId) {
+				dropLocation.resourceId = startCell.resourceId;
+			}
 		}
 
 		return dropLocation;
@@ -8957,7 +8960,9 @@ var momComputableOptions = {
 
 
 // options that should be computed off live calendar options (considers override options)
-var instanceComputableOptions = { // TODO: best place for this? related to lang?
+// TODO: best place for this? related to lang?
+// TODO: flipping text based on isRTL is a bad idea because the CSS `direction` might want to handle it
+var instanceComputableOptions = {
 
 	// Produces format strings for results like "Mo 16"
 	smallDayDateFormat: function(options) {
@@ -10313,7 +10318,12 @@ function EventManager(options) { // assumed to be a calendar
 		var eventStart = event.start.clone().stripZone();
 		var eventEnd = t.getEventEnd(event).stripZone();
 
-		return range.start >= eventStart && range.end <= eventEnd;
+		if (range.resourceId && event.resourceId) {
+			return range.start >= eventStart && range.end <= eventEnd &&
+				range.resourceId == event.resourceId;
+		} else {
+			return range.start >= eventStart && range.end <= eventEnd;
+		}
 	}
 
 
