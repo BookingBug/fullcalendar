@@ -1059,7 +1059,12 @@ function EventManager(options) { // assumed to be a calendar
 		var eventStart = event.start.clone().stripZone();
 		var eventEnd = t.getEventEnd(event).stripZone();
 
-		return range.start >= eventStart && range.end <= eventEnd;
+		if (range.resourceId && event.resourceId) {
+			return range.start >= eventStart && range.end <= eventEnd &&
+				range.resourceId == event.resourceId;
+		} else {
+			return range.start >= eventStart && range.end <= eventEnd;
+		}
 	}
 
 

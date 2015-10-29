@@ -390,6 +390,9 @@ Grid.mixin({
 				end: null, // end should be cleared
 				allDay: !dragEnd.hasTime()
 			};
+			if (startCell.resourceId) {
+				dropLocation.resourceId = startCell.resourceId;
+			}
 		}
 
 		return dropLocation;
