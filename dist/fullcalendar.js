@@ -3493,6 +3493,9 @@ var Grid = fc.Grid = RowRenderer.extend({
 			start: dates[0].clone(),
 			end: dates[3].clone()
 		};
+    if (firstCell.resourceId) {
+      range.resourceId = firstCell.resourceId;
+    }
 
 		if (!this.view.calendar.isSelectionRangeAllowed(range)) {
 			return null;
